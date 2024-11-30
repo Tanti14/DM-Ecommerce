@@ -1,12 +1,13 @@
-import { Compo } from "@/components/products/admin_view_product_card/prodcard";
+import { AdminProdCard } from "@/components/admin/admin_view_product_card/adminprodcard";
 import { Button } from "@/components/ui/button";
 import { useManagement } from "@/context/ManagementContext";
-import { newProdSchema } from "@/Formik/newProdSchema";
+
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
+import { newProdSchema } from "@/Formik";
 
 export const NewProduct = () => {
   const {
@@ -146,17 +147,16 @@ export const NewProduct = () => {
               >
                 Categoria
               </label>
-              {/* <Field
+              <Field
                 name="category"
                 id="category"
-                placeholder="Ingrese la Categoria del producto. (No repetir)."
-                className="py-2 px-3 border-2 rounded-md focus: outline-none focus:shadow-outline shadow-lg appearance-none resize-none"
-              /> */}
-              <Field name="category" id="category" as="select" className="py-2 px-3 border-2 rounded-md focus: outline-none focus:shadow-outline shadow-lg">
+                as="select"
+                className="py-2 px-3 border-2 rounded-md focus: outline-none focus:shadow-outline shadow-lg"
+              >
                 <option value="">Seleccione una categoria</option>
                 {categories.map((cat) => (
-                  <option key={cat._id} value={cat.category}>
-                    {cat.category}
+                  <option key={cat._id} value={cat.categoryName}>
+                    {cat.categoryName}
                   </option>
                 ))}
               </Field>
@@ -208,7 +208,7 @@ export const NewProduct = () => {
 
             {/* ========================================= */}
             <div className="flex justify-center items-center">
-              <Compo
+              <AdminProdCard
                 name={values.name}
                 description={values.description}
                 price={values.price}

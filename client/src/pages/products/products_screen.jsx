@@ -1,13 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import {
   Button,
   CategoryButtons,
   StyledProdCards,
   StyledProdsContainer,
 } from "./styles";
-import { ProductCard } from "../../components/products/product_card/product_card";
 import "animate.css";
 import { useManagement } from "@/context/ManagementContext";
+import { ProdCard } from "@/components/products/product_card/prodcard";
 
 export const ProductsScreen = () => {
   const {
@@ -24,8 +24,6 @@ export const ProductsScreen = () => {
     getCategories();
   }, []);
 
-  /* console.log(categories) */
-
   return (
     <StyledProdsContainer>
       <h1 className="text-4xl font-bold">CATÁLOGO DE PRODUCTOS</h1>
@@ -39,17 +37,17 @@ export const ProductsScreen = () => {
         {categories.map((cat) => (
           <Button
             key={cat._id}
-            selected={selectedCategory === cat.category}
-            onClick={() => handleCategoryChange(cat.category)}
+            selected={selectedCategory === cat.categoryName}
+            onClick={() => handleCategoryChange(cat.categoryName)}
           >
-            {cat.category}
+            {cat.categoryName}
           </Button>
         ))}
       </CategoryButtons>
       <StyledProdCards>
         {filteredProducts
           .map((product) => (
-            <ProductCard
+            <ProdCard
               key={product._id}
               name={product.name}
               description={product.description}

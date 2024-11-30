@@ -25,20 +25,18 @@ export const AuthProvider = ({ children }) => {
   const register = async (user) => {
     try {
       const res = await registerRequest(user);
-      setIsAuth(true);
       setUser(res.data);
+      setIsAuth(true);
     } catch (error) {
-      if (error.response) {
-        setErrors(error.response.data);
-      }
+      setErrors(error.response.data);
     }
   };
 
   const login = async (user) => {
     try {
       const res = await loginRequest(user);
-      setIsAuth(true);
       setUser(res.data);
+      setIsAuth(true);
     } catch (error) {
       if (Array.isArray(error.response.data)) {
         return setErrors(error.response.data);
@@ -53,43 +51,43 @@ export const AuthProvider = ({ children }) => {
     setUser(null);
   };
 
-  useEffect(() => {
+  /* useEffect(() => {
     if (errors.length > 0) {
       const timer = setTimeout(() => {
         setErrors([]);
       }, 5000);
       return () => clearTimeout(timer);
     }
-  }, [errors]);
+  }, [errors]); */
+
+  const checkLogin = async () => {
+    const cookies = Cookies.get();
+
+    if (!cookies.token) {
+      setIsAuth(false);
+      setLoading(false);
+      return setUser(null);
+    }
+
+    try {
+      const res = await verifyTokenRequest(cookies.token);
+      if (!res.data) {
+        setIsAuth(false);
+        setLoading(false);
+        return;
+      }
+      setIsAuth(true);
+      setUser(res.data);
+      setLoading(false);
+    } catch (error) {
+      setIsAuth(false);
+      setLoading(false);
+      setUser(null);
+    }
+  };
 
   useEffect(() => {
-    async function checkLogin() {
-      const cookies = Cookies.get();
-
-      if (!cookies.token) {
-        setIsAuth(false);
-        setLoading(false);
-        return setUser(null);
-      }
-
-      try {
-        const res = await verifyTokenRequest(cookies.token);
-        if (!res.data) {
-          setIsAuth(false);
-          setLoading(false);
-          return;
-        }
-
-        setIsAuth(true);
-        setUser(res.data);
-        setLoading(false);
-      } catch (error) {
-        setIsAuth(false);
-        setLoading(false);
-        setUser(null);
-      }
-      checkLogin();
-    }
+    checkLogin();
   }, []);
 
   return (

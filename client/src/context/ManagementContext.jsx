@@ -48,14 +48,13 @@ export const ManagementProvider = ({ children }) => {
       const res = await getCategoriesRequest();
       setCategories(res.data);
     } catch (error) {
-      console.log(error);
+      console.log("No hay categorias");
     }
   };
 
   const createCategory = async (category) => {
     try {
       const res = await createCategoryRequest(category);
-      console.log(res);
     } catch (error) {
       console.log(error);
     }
@@ -73,10 +72,8 @@ export const ManagementProvider = ({ children }) => {
   const deleteCategory = async (id) => {
     try {
       const res = await deleteCategoryRequest(id);
-      if (products.some((product) => product.category === category.category)) {
-        res.status(409).json({ message: "Category is in use" });
-      }
-      if (res.status === 204) {
+
+      if (res.status === 200) {
         setCategories(categories.filter((category) => category._id !== id));
       }
     } catch (error) {
@@ -90,7 +87,7 @@ export const ManagementProvider = ({ children }) => {
       const res = await getProductsRequest();
       setProducts(res.data);
     } catch (error) {
-      console.log(error);
+      console.log("No hay productos en la base de datos");
     }
   };
 
@@ -99,7 +96,7 @@ export const ManagementProvider = ({ children }) => {
       const res = await getProductRequest(id);
       return res.data;
     } catch (error) {
-      console.log(error);
+      console.log("No se encontro el producto solicitado");
     }
   };
 
@@ -124,7 +121,7 @@ export const ManagementProvider = ({ children }) => {
   const deleteProduct = async (id) => {
     try {
       const res = await deleteProductRequest(id);
-      if (res.status === 204) {
+      if (res.status === 200) {
         setProducts(products.filter((product) => product._id !== id));
       }
     } catch (error) {

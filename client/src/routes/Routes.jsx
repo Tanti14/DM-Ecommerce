@@ -14,7 +14,7 @@ import { ScrollToTop } from "@/components/scrolltotop/ScrollToTop";
 import { AuthProvider } from "../context/AuthContext";
 import { ManagementProvider } from "../context/ManagementContext";
 import { Toaster } from "react-hot-toast";
-import { NewCategory } from "@/pages/admin/newcategory";
+import { CategoryManager } from "@/pages/admin/categorymanager";
 
 export const RoutesDef = () => {
   return (
@@ -24,25 +24,20 @@ export const RoutesDef = () => {
           <Layout>
             <ScrollToTop />
             <Routes>
-              <Route>
-                <Route path="/" index element={<HomeScreen />} />
-                <Route path="/inicio" element={<HomeScreen />} />
-              </Route>
+              <Route path="/" index element={<HomeScreen />} />
               <Route path="/products" element={<ProductsScreen />} />
               <Route path="/about" element={<AboutusScreen />} />
               <Route path="/contact" element={<ContactusScreen />} />
 
               {/* Rutas de autentificacion */}
               <Route path="/login" element={<Login />} />
-              <Route path="/register" element={<Login />} />
 
               {/* Rutas de administracion */}
-              <Route path="/controlpanel" element={<ControlPanel />} />
-              <Route path="/newproduct/form" element={<NewProduct />} />
-              <Route path="/editproduct/form/:id" element={<NewProduct />} />
-              <Route path="/newcategory" element={<NewCategory/>} />
-
               <Route element={<ProtectedRoute />}>
+                <Route path="/controlpanel" element={<ControlPanel />} />
+                <Route path="/newproduct/form" element={<NewProduct />} />
+                <Route path="/editproduct/form/:id" element={<NewProduct />} />
+                <Route path="/categorymanager" element={<CategoryManager />} />
                 <Route path="/checkout" element={<Checkout />} />
               </Route>
             </Routes>

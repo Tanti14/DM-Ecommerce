@@ -129,7 +129,6 @@ export const Navbar = () => {
         <NavBtnContainer ref={refMenu}>
           <NavLink
             to="/"
-            reloadDocument={true}
             style={({ isActive }) => ({
               textDecoration: isActive ? "underline" : "none",
             })}

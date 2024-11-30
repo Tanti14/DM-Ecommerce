@@ -1,5 +1,4 @@
 import React from "react";
-import { golosinas } from "../../../data/golosinas";
 import { BoxcontentCard } from "../boxcontent_card/boxcontent_card";
 import { BoxContentSection, CardsContainer, Parrafo } from "./styles";
 
@@ -15,9 +14,6 @@ export const BoxcontentSection = () => {
       </Parrafo>
 
       <CardsContainer>
-        {golosinas.map((golosina) => (
-          <BoxcontentCard key={golosina.id} {...golosina} />
-        ))}
       </CardsContainer>
     </BoxContentSection>
   );

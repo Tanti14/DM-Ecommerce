@@ -7,3 +7,6 @@ export * from "./contactInitialValues";
 export * from "./contactSchema";
 
 export * from "./newProdSchema";
+export * from "./newCategorySchema";
+export * from "./loginSchema";
+export * from "./loginInitialValues";
