@@ -14,8 +14,8 @@ export const getCategories = async (req, res) => {
 
 export const createCategory = async (req, res) => {
   try {
-    const { category } = req.body;
-    const newCategory = new Categories({ category });
+    const { categoryName } = req.body;
+    const newCategory = new Categories({ categoryName });
     await newCategory.save();
     res.status(201).json(newCategory);
   } catch (error) {
@@ -23,25 +23,23 @@ export const createCategory = async (req, res) => {
   }
 };
 
-
 export const updateCategory = async (req, res) => {
   try {
-    const updatedCategorie = await Categories.findByIdAndUpdate(
+    const category = await Categories.findByIdAndUpdate(
       req.params.id,
       req.body,
       { new: true }
     );
-    res.status(200).json(updatedCategorie);
+    res.status(200).json(category);
   } catch (error) {
     return res.status(409).json({ message: error.message });
   }
 };
 
-
 export const deleteCategory = async (req, res) => {
   try {
-    const deletedCategorie = await Categories.findByIdAndDelete(req.params.id);
-    if (!deletedCategorie)
+    const category = await Categories.findByIdAndDelete(req.params.id);
+    if (!category)
       return res.status(404).json({ message: "Category not found" });
     res.status(200).json({ message: "Category deleted successfully" });
   } catch (error) {
