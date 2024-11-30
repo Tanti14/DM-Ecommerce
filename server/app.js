@@ -11,7 +11,7 @@ export const app = express();
 
 app.use(
   cors({
-    origin: ORIGIN_URL || "http://localhost:5173",
+    origin: ORIGIN_URL,
     credentials: true,
   })
 );
@@ -24,3 +24,5 @@ app.use(cookieParser());
 app.use("/api", authRoutes);
 app.use("/api", productsRoutes);
 app.use("/api", categoriesRoutes);
+
+/* origin: http://localhost:5173 */
