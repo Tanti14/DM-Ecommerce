@@ -51,6 +51,7 @@ export const login = async (req, res) => {
     }
 
     const token = await createAccessToken({ id: foundUser._id });
+    console.log(token)
 
     res.cookie(
       "token",
@@ -62,7 +63,8 @@ export const login = async (req, res) => {
       email: foundUser.email,
     });
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    /* res.status(500).json({ error: error.message }); */
+    res.status(500).json(error);
   }
 };
 

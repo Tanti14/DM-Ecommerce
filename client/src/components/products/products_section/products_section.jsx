@@ -23,6 +23,7 @@ export const ProductsSection = () => {
         ) : (
           products.map((product) => (
             <ProdCard
+              key={product._id}
               id={product._id}
               name={product.name}
               description={product.description}
