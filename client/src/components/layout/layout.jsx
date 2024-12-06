@@ -5,9 +5,9 @@ import { Toaster } from "sonner";
 
 export const Layout = ({ children }) => {
   return (
-    <div>
+    <div className="flex flex-col min-h-screen">
       <Navbar />
-      <div className="mt-[125px]">{children}</div>
+      <div className="flex-1">{children}</div>
       <Toaster />
       <FooterSection />
     </div>

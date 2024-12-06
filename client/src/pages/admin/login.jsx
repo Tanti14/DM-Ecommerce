@@ -18,9 +18,12 @@ export const Login = () => {
   }, [isAuth]);
 
   return (
-    <div className="grid grid-cols-2 w-full h-screen ">
-      <div className="flex flex-col justify-center w-full bg-white px-20 gap-10">
-        <h1 className="font-bold text-2xl">Iniciar sesion</h1>
+    <div className="grid grid-cols-2 w-full sm:h-screen ">
+      <div className="flex flex-col justify-center w-full bg-white mt-20 px-16 gap-4">
+        <div className="flex flex-col gap-2">
+          <h1 className="font-bold text-2xl">Bienvenido a DM-Ecommerce</h1>
+          <h2 className="font-bold text-2xl">Iniciar sesion</h2>
+        </div>
         <Formik
           initialValues={loginInitialValues}
           validationSchema={loginSchema}
@@ -99,8 +102,7 @@ export const Login = () => {
           )}
         </Formik>
       </div>
-      <div className="flex flex-col justify-center items-center w-full p-10 bg-pink-600">
-        <h2 className="font-bold text-2xl">Bienvenido a DM-Ecommerce</h2>
+      <div className="flex flex-col justify-center items-center w-full p-10 mt-20 bg-pink-600">
         <img src={Logo} alt="" className="w-[65%]" />
       </div>
     </div>

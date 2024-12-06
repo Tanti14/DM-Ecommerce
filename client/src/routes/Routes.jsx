@@ -15,6 +15,7 @@ import { AuthProvider } from "../context/AuthContext";
 import { ManagementProvider } from "../context/ManagementContext";
 import { Toaster } from "react-hot-toast";
 import { CategoryManager } from "@/pages/admin/categorymanager";
+import { UserManager } from "@/pages/admin/usermanager";
 
 export const RoutesDef = () => {
   return (
@@ -38,6 +39,7 @@ export const RoutesDef = () => {
                 <Route path="/newproduct/form" element={<NewProduct />} />
                 <Route path="/editproduct/form/:id" element={<NewProduct />} />
                 <Route path="/categorymanager" element={<CategoryManager />} />
+                <Route path="/usermanager" element={<UserManager />} />
                 <Route path="/checkout" element={<Checkout />} />
               </Route>
             </Routes>

@@ -11,6 +11,13 @@ import {
   deleteCategoryRequest,
 } from "../api/management";
 
+import {
+  getUsersRequest,
+  createUserRequest,
+  updateUserRequest,
+  deleteUserRequest,
+} from "../api/users";
+
 const ManagementContext = createContext();
 
 export const useManagement = () => {
@@ -24,6 +31,7 @@ export const useManagement = () => {
 export const ManagementProvider = ({ children }) => {
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([]);
+  const [users, setUsers] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState("all");
 
   const Products = products.reduce((acc, product) => {
@@ -42,7 +50,7 @@ export const ManagementProvider = ({ children }) => {
   const filteredProducts =
     selectedCategory === "all" ? products : Products[selectedCategory] || [];
 
-  /* Categories DB Request */
+  /* Categories Management */
   const getCategories = async () => {
     try {
       const res = await getCategoriesRequest();
@@ -80,14 +88,14 @@ export const ManagementProvider = ({ children }) => {
       console.log(error);
     }
   };
-
-  /* Products DB Requests */
+  /* =========================================================================== */
+  /* Products Management */
   const getProducts = async () => {
     try {
       const res = await getProductsRequest();
       setProducts(res.data);
     } catch (error) {
-      console.log("No hay productos en la base de datos");
+      console.log(error.message);
     }
   };
 
@@ -129,6 +137,46 @@ export const ManagementProvider = ({ children }) => {
     }
   };
 
+  /* =========================================================================== */
+  /* User Management */
+  const getUsers = async () => {
+    try {
+      const res = await getUsersRequest();
+      setUsers(res.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const createUser = async (user) => {
+    try {
+      const res = await createUserRequest(user);
+      console.log(res.data);
+    } catch (error) {
+      setErrors(error.response.data);
+    }
+  };
+
+  const updateUser = async (id, user) => {
+    try {
+      const res = await updateUserRequest(id, user);
+      console.log("User updated successfully");
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const deleteUser = async (id) => {
+    try {
+      const res = await deleteUserRequest(id);
+      if (res.status === 200) {
+        setUsers(users.filter((user) => user._id !== id));
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <ManagementContext.Provider
       value={{
@@ -138,14 +186,19 @@ export const ManagementProvider = ({ children }) => {
         createProduct,
         updateProduct,
         deleteProduct,
-        selectedCategory,
-        handleCategoryChange,
         filteredProducts,
         categories,
         getCategories,
         createCategory,
         updateCategory,
         deleteCategory,
+        selectedCategory,
+        handleCategoryChange,
+        users,
+        getUsers,
+        createUser,
+        updateUser,
+        deleteUser,
       }}
     >
       {children}

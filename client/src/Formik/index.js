@@ -10,3 +10,5 @@ export * from "./newProdSchema";
 export * from "./newCategorySchema";
 export * from "./loginSchema";
 export * from "./loginInitialValues";
+
+export * from "./newUserSchema";

@@ -158,10 +158,13 @@ export const ControlPanel = () => {
               <DropdownMenuItem onClick={() => navigate("/newproduct")}>
                 Mensajes
               </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => navigate("/")}>
+                Gestionar Pedidos
+              </DropdownMenuItem>
               <DropdownMenuItem onClick={() => navigate("/categorymanager")}>
                 Gestionar Categorias
               </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => navigate("/")}>
+              <DropdownMenuItem onClick={() => navigate("/usermanager")}>
                 Gestionar Usuarios
               </DropdownMenuItem>
               <DropdownMenuItem onClick={() => logoutCheck()}>
@@ -173,7 +176,7 @@ export const ControlPanel = () => {
       </div>
 
       {filteredProducts.length === 0 ? (
-        <div className="flex flex-col justify-center items-center h-[calc(100vh-170px)]">
+        <div className="flex flex-col justify-center items-center h-[calc(100vh-400px)] sm:h-[calc(100vh-170px)] ">
           <h2 className="text-2xl font-bold">NO HAY PRODUCTOS PARA MOSTRAR</h2>
           <p>Cuando crees un producto nuevo, el mismo se mostrara aquí</p>
         </div>
