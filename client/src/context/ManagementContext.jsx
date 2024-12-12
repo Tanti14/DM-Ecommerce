@@ -1,4 +1,4 @@
-import React, { createContext, useState, useContext } from "react";
+import React, { createContext, useState, useContext, useEffect } from "react";
 import {
   createProductRequest,
   getProductsRequest,
@@ -17,6 +17,7 @@ import {
   updateUserRequest,
   deleteUserRequest,
 } from "../api/users";
+import { use } from "react";
 
 const ManagementContext = createContext();
 
@@ -33,6 +34,7 @@ export const ManagementProvider = ({ children }) => {
   const [categories, setCategories] = useState([]);
   const [users, setUsers] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState("all");
+  const [cart, setCart] = useState([]);
 
   const Products = products.reduce((acc, product) => {
     if (!acc[product.category]) {
@@ -88,6 +90,40 @@ export const ManagementProvider = ({ children }) => {
       console.log(error);
     }
   };
+
+  /* =========================================================================== */
+  /* Cart Management */
+
+  useEffect(() => {
+    localStorage.setItem("cart", JSON.stringify(cart));
+  }, [cart]);
+
+  const addToCart = (product) => {
+    setCart([product]);
+  };
+
+  const removeFromCart = (id) => {
+    setCart(cart.filter((product) => product._id !== id));
+  };
+
+  const clearCart = () => {
+    setCart([]);
+  };
+
+  const increaseQuantity = (id) => {
+    const product = cart.find((product) => product._id === id);
+    setCart([...cart, product]);
+  };
+
+  const decreaseQuantity = (id) => {
+    const product = cart.find((product) => product._id === id);
+    setCart([...cart, product]);
+  };
+
+  const getCartTotal = () => {
+    return cart.reduce((acc, product) => acc + product.price, 0);
+  };
+
   /* =========================================================================== */
   /* Products Management */
   const getProducts = async () => {
@@ -96,6 +132,7 @@ export const ManagementProvider = ({ children }) => {
       setProducts(res.data);
     } catch (error) {
       console.log(error.message);
+      console.log("No se encontraron productos");
     }
   };
 
@@ -194,6 +231,13 @@ export const ManagementProvider = ({ children }) => {
         deleteCategory,
         selectedCategory,
         handleCategoryChange,
+        cart,
+        addToCart,
+        removeFromCart,
+        clearCart,
+        increaseQuantity,
+        decreaseQuantity,
+        getCartTotal,
         users,
         getUsers,
         createUser,

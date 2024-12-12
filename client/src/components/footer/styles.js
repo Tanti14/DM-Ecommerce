@@ -9,7 +9,7 @@ export const FooterSectionContainer = styled.footer`
   width: 100%;
   background: #121314;
   color: white;
-  height: 12rem;
+  height: 197px;
 
   @media (width <= 576px) {
     font-size: 12px;
