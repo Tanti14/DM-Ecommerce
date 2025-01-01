@@ -12,3 +12,5 @@ export * from "./loginSchema";
 export * from "./loginInitialValues";
 
 export * from "./newUserSchema";
+
+export * from "./newMsgSchema";

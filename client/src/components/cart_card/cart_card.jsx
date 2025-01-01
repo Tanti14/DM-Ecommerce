@@ -10,9 +10,14 @@ import { formatPrice } from "../../utils/formatPrice";
 import Swal from "sweetalert2";
 import { toast } from "sonner";
 
-export const CartCard = ({ id, img, title, precio, quantity }) => {
-  const dispatch = useDispatch();
-
+export const CartCard = ({
+  id,
+  name,
+  description,
+  price,
+  imageUrl,
+  quantity,
+}) => {
   const deleteCartItem = () => {
     if (quantity === 1) {
       Swal.fire({
@@ -37,11 +42,11 @@ export const CartCard = ({ id, img, title, precio, quantity }) => {
   };
   return (
     <CartCardContent>
-      <img src={img} alt="" />
+      <img src={imageUrl} alt={name} />
       <CardRightSide>
         <CartCardText>
-          <h2>{title}</h2>
-          <span>{formatPrice(precio)}</span>
+          <h2>{name}</h2>
+          <span>{formatPrice(price)}</span>
         </CartCardText>
         <CartCardBtns>
           <CardBtn

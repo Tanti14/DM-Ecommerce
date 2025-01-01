@@ -7,6 +7,7 @@ import { AboutusScreen } from "../pages/about_us/aboutus_screen";
 import { ContactusScreen } from "../pages/contact_us/contactus_screen";
 import { Checkout } from "../pages/checkout/checkout";
 import { ProtectedRoute } from "../ProtectedRoute";
+import { ProtectedCheckout } from "../ProtectedCheckout";
 import { ControlPanel } from "../pages/admin/controlpanel";
 import { Login } from "@/pages/admin/login";
 import { NewProduct } from "@/pages/admin/newproduct";
@@ -16,6 +17,7 @@ import { ManagementProvider } from "../context/ManagementContext";
 import { Toaster } from "react-hot-toast";
 import { CategoryManager } from "@/pages/admin/categorymanager";
 import { UserManager } from "@/pages/admin/usermanager";
+import { MsgManager } from "@/pages/admin/msgmanager";
 
 export const RoutesDef = () => {
   return (
@@ -30,6 +32,11 @@ export const RoutesDef = () => {
               <Route path="/about" element={<AboutusScreen />} />
               <Route path="/contact" element={<ContactusScreen />} />
 
+              {/* Rutas de compra */}
+              <Route element={<ProtectedCheckout />}>
+                <Route path="/checkout" element={<Checkout />} />
+              </Route>
+
               {/* Rutas de autentificacion */}
               <Route path="/login" element={<Login />} />
 
@@ -39,8 +46,8 @@ export const RoutesDef = () => {
                 <Route path="/newproduct/form" element={<NewProduct />} />
                 <Route path="/editproduct/form/:id" element={<NewProduct />} />
                 <Route path="/categorymanager" element={<CategoryManager />} />
+                <Route path="/msgmanager" element={<MsgManager />} />
                 <Route path="/usermanager" element={<UserManager />} />
-                <Route path="/checkout" element={<Checkout />} />
               </Route>
             </Routes>
             <Toaster position="bottom-right" />

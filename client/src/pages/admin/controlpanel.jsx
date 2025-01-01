@@ -155,7 +155,7 @@ export const ControlPanel = () => {
             <DropdownMenuContent>
               <DropdownMenuLabel>ADMINISTRAR WEB</DropdownMenuLabel>
               <DropdownMenuSeparator />
-              <DropdownMenuItem onClick={() => navigate("/newproduct")}>
+              <DropdownMenuItem onClick={() => navigate("/msgmanager")}>
                 Mensajes
               </DropdownMenuItem>
               <DropdownMenuItem onClick={() => navigate("/")}>

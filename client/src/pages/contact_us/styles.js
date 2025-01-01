@@ -8,7 +8,6 @@ export const StyledFormScreen = styled.div`
   width: 100%;
   margin-top: 125px;
   background-color: #ffc8dd;
-  color: white;
   gap: 60px;
   padding: 30px;
   img {

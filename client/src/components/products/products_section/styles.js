@@ -46,6 +46,6 @@ export const ShowMoreProds = styled(motion.div)`
 export const ShowMoreProdsBtn = styled(Link)`
   user-select: none;
   padding: 10px 30px;
-  background-color: orange;
+  background-color: #fb923c;
   color: white;
 `;

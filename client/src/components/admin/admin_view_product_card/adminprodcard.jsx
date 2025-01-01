@@ -38,13 +38,13 @@ export const AdminProdCard = ({ id, name, description, price, imageUrl, disabled
   };
 
   return (
-    <div className="flex flex-col items-center px-2 py-7 gap-7 w-[300px] bg-white border-[1px] border-black">
+    <div className="flex flex-col items-center px-2 py-7 gap-7 w-[350px] bg-white border-[1px] border-black">
       <div>
         <img className="w-[250px] h-[250px]" src={imageUrl} alt={name} />
       </div>
       <div className="flex flex-col justify-center items-start w-full gap-2 px-5">
         <h2 className="font-bold text-2xl">{name}</h2>
-        <p>Peso: {description}</p>
+        <p>{description}</p>
         <p>{formatPrice(price)}</p>
       </div>
       <div className="flex justify-center items-center gap-6 w-full">

@@ -14,6 +14,11 @@ export const BoxcontentSection = () => {
       </Parrafo>
 
       <CardsContainer>
+        <BoxcontentCard
+          title="Chupetines"
+          desc="Chupetines de frutas y colores variados"
+          img="https://i.ibb.co/1vZzvJm/chupetines.jpg"
+        />
       </CardsContainer>
     </BoxContentSection>
   );

@@ -2,13 +2,13 @@ import React from "react";
 import { CartCardContent, CartCardText } from "./styles";
 import { formatPrice } from "../../utils/formatPrice";
 
-export const CheckCartCard = ({ id, img, title, precio, quantity }) => {
+export const CheckCartCard = ({ id, name, description, price, imageUrl, quantity }) => {
   return (
     <CartCardContent>
-      <img src={img} alt={title} />
+      <img src={imageUrl} alt={name} />
       <CartCardText>
-        <h2>{title}</h2>
-        <span>{formatPrice(precio)}</span>
+        <h2>{name}</h2>
+        <span>{formatPrice(price)}</span>
         <span>Cantidad: {quantity}</span>
       </CartCardText>
     </CartCardContent>

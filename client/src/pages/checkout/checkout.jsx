@@ -19,8 +19,10 @@ import { useNavigate } from "react-router-dom";
 import { checkoutSchema, checkoutInitialValues } from "../../Formik/index.js";
 import Swal from "sweetalert2";
 import "animate.css";
+import { useManagement } from "@/context/ManagementContext";
 
 export const Checkout = () => {
+  const { cart } = useManagement();
   const navigate = useNavigate();
 
   const { values, handleSubmit, getFieldProps, resetForm, errors } = useFormik({
@@ -144,7 +146,17 @@ export const Checkout = () => {
         <CheckoutCartItems>
           <h2 className="text-3xl">DETALLE</h2>
           <CartItemsDetails>
-            <div className="bg-white border-[1.5px] w-full rounded-md"></div>
+            <div className="bg-white border-[1.5px] w-full rounded-md">
+              {cart.map((item) => (
+                <CheckCartCard
+                  key={item.id}
+                  name={item.name}
+                  price={item.price}
+                  quantity={item.quantity}
+                  imageUrl={item.imageUrl}
+                />
+              ))}
+            </div>
             <CartDetails>
               <p>Subtotal</p>
               <span>{formatPrice(0)}</span>

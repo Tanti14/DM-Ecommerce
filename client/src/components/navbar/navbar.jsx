@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect, useContext } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import TxtLogo from "../../assets/img/Dulce1.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars, faCartShopping } from "@fortawesome/free-solid-svg-icons";
@@ -22,10 +22,12 @@ import {
 import { CartCard } from "../../components/cart_card/cart_card";
 import { formatPrice } from "../../utils/formatPrice";
 import Swal from "sweetalert2";
-import { toast } from "sonner";
+import { useManagement } from "@/context/ManagementContext";
+import toast from "react-hot-toast";
 
 export const Navbar = () => {
   const navigate = useNavigate();
+  const { cart, clearCart } = useManagement();
   const [menuState, setMenuState] = useState(0);
   const [cartState, setCartState] = useState(0);
   const refMenuBtn = useRef(),
@@ -86,7 +88,6 @@ export const Navbar = () => {
 
   /* ========================================================= */
 
-
   const vaciarCarrito = () => {
     Swal.fire({
       title: "Desea vaciar el carrito?",
@@ -99,14 +100,22 @@ export const Navbar = () => {
       cancelButtonText: "Cancelar",
     }).then((result) => {
       if (result.isConfirmed) {
-        toast.success("Se han eliminado los items del carrito", {
-          position: "bottom-left",
-        });
-        /* dispatch(clearCart()); */
+        toast.success("Se han eliminado los items del carrito");
+        clearCart();
         handleToggleCart();
       }
     });
   };
+
+  const getCartTotal = () => {
+    return cart.reduce((acc, item) => acc + item.price * item.quantity, 0);
+  };
+
+  const getCartQuantity = () => {
+    return cart.reduce((acc, item) => acc + item.quantity, 0);
+  };
+
+  const deliveryCost = 2500;
 
   return (
     <HeaderSection>
@@ -169,7 +178,7 @@ export const Navbar = () => {
               className="text-white text-xl"
               icon={faCartShopping}
             />
-            <span>0</span>
+            <span>{getCartQuantity()}</span>
           </NavCartBtn>
         </CartBtnContainer>
 
@@ -180,7 +189,21 @@ export const Navbar = () => {
             </h2>
           </CartTitle>
           <CartItemsContainer>
-            <span className="text-white text-2xl">El carrito esta vacio!</span>
+            {cart.length === 0 ? (
+              <span className="text-white text-2xl">
+                El carrito esta vacio!
+              </span>
+            ) : (
+              cart.map((item) => (
+                <CartCard
+                  key={item._id}
+                  name={item.name}
+                  price={item.price}
+                  quantity={item.quantity}
+                  imageUrl={item.imageUrl}
+                />
+              ))
+            )}
           </CartItemsContainer>
 
           <CartDetailsContainer>
@@ -188,23 +211,29 @@ export const Navbar = () => {
             <p>Detalles:</p>
             <CartDetails>
               <p>Subtotal</p>
-              <span>{formatPrice(0)}</span>
+              <span>{formatPrice(getCartTotal())}</span>
             </CartDetails>
             <CartDetails>
               <p>Envio</p>
-              <span>0
+              <span>
+                {cart.length >= 1 ? formatPrice(deliveryCost) : formatPrice(0)}
               </span>
             </CartDetails>
             <div className="bg-white border-[1.5px] rounded-md"></div>
             <CartDetails>
               <p>Total</p>
-              <span>0</span>
+              <span>
+                {cart.length >= 1
+                  ? formatPrice(getCartTotal() + deliveryCost)
+                  : formatPrice(0)}
+              </span>
             </CartDetails>
           </CartDetailsContainer>
           <CartBtn>
             <CartActionsBtns
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.9 }}
+              onClick={vaciarCarrito}
             >
               Vaciar carrito
             </CartActionsBtns>
@@ -215,7 +244,7 @@ export const Navbar = () => {
                 handleToggleCart();
                 navigate("/checkout");
               }}
-              disabled={true}
+              disabled={cart.length === 0}
             >
               Finalizar pedido
             </CartActionsBtns>

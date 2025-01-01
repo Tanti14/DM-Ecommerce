@@ -17,7 +17,13 @@ import {
   updateUserRequest,
   deleteUserRequest,
 } from "../api/users";
-import { use } from "react";
+
+import {
+  deleteMessageRequest,
+  getMessagesRequest,
+  sendMessageRequest,
+  updateMessageStatusRequest,
+} from "../api/msg";
 
 const ManagementContext = createContext();
 
@@ -34,8 +40,9 @@ export const ManagementProvider = ({ children }) => {
   const [categories, setCategories] = useState([]);
   const [users, setUsers] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState("all");
-  const [cart, setCart] = useState([]);
 
+  /* =================================================================== */
+  /* Filtrado de Productos */
   const Products = products.reduce((acc, product) => {
     if (!acc[product.category]) {
       acc[product.category] = [];
@@ -51,6 +58,8 @@ export const ManagementProvider = ({ children }) => {
 
   const filteredProducts =
     selectedCategory === "all" ? products : Products[selectedCategory] || [];
+
+  /* =================================================================== */
 
   /* Categories Management */
   const getCategories = async () => {
@@ -89,39 +98,6 @@ export const ManagementProvider = ({ children }) => {
     } catch (error) {
       console.log(error);
     }
-  };
-
-  /* =========================================================================== */
-  /* Cart Management */
-
-  useEffect(() => {
-    localStorage.setItem("cart", JSON.stringify(cart));
-  }, [cart]);
-
-  const addToCart = (product) => {
-    setCart([product]);
-  };
-
-  const removeFromCart = (id) => {
-    setCart(cart.filter((product) => product._id !== id));
-  };
-
-  const clearCart = () => {
-    setCart([]);
-  };
-
-  const increaseQuantity = (id) => {
-    const product = cart.find((product) => product._id === id);
-    setCart([...cart, product]);
-  };
-
-  const decreaseQuantity = (id) => {
-    const product = cart.find((product) => product._id === id);
-    setCart([...cart, product]);
-  };
-
-  const getCartTotal = () => {
-    return cart.reduce((acc, product) => acc + product.price, 0);
   };
 
   /* =========================================================================== */
@@ -213,6 +189,98 @@ export const ManagementProvider = ({ children }) => {
       console.log(error);
     }
   };
+  /* =========================================================================== */
+  /* Messages Management */
+  const [messages, setMessages] = useState([]);
+  const [selectedMessages, setSelectedMessages] = useState(false);
+
+  /* Filtrado de Mensajes */
+  const Messages = messages.reduce((acc, message) => {
+    if (!acc[message.isReaded]) {
+      acc[message.isReaded] = [];
+    }
+
+    acc[message.isReaded] = [...acc[message.isReaded], message];
+    return acc;
+  }, {});
+
+  const handleMessageChange = (isReaded) => {
+    setSelectedMessages(isReaded);
+    getMessages();
+  };
+
+  const filteredMessages =
+    selectedMessages === "" ? messages : Messages[selectedMessages] || [];
+
+  /* Controllers de Mensajes */
+  const getMessages = async () => {
+    try {
+      const res = await getMessagesRequest();
+      setMessages(res.data);
+    } catch (error) {
+      /* console.log(error); */
+    }
+  };
+
+  const sendMessage = async (msg) => {
+    try {
+      const res = await sendMessageRequest(msg);
+      console.log(res.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const updateMessageStatus = async (id, msg) => {
+    try {
+      const res = await updateMessageStatusRequest(id, msg);
+      if (res.status === 200) {
+        /* setMessages(messages.map((message) => message._id === id)); */
+        setMessages((prevMessages) =>
+          prevMessages.map((message) =>
+            message._id === id ? { ...message, isReaded: true } : message
+          )
+        );
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const deleteMessage = async (id) => {
+    try {
+      const res = await deleteMessageRequest(id);
+      if (res.status === 200) {
+        setMessages(messages.filter((message) => message._id !== id));
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  /* =========================================================================== */
+  /* Cart Management */
+
+  const [cart, setCart] = useState([]);
+
+  const addToCart = (product) => {
+    console.log(cart);
+    const productInCartIndex = cart.findIndex(
+      (item) => item.id === product.id
+    );
+
+    if (productInCartIndex >= 0) {
+      const newCart = structuredClone(cart);
+      newCart[productInCartIndex].quantity += 1;
+      return setCart(newCart);
+    }
+
+    setCart((prev) => [...prev, { ...product, quantity: 1 }]);
+  };
+
+  const clearCart = () => {
+    setCart([]);
+  };
 
   return (
     <ManagementContext.Provider
@@ -231,18 +299,22 @@ export const ManagementProvider = ({ children }) => {
         deleteCategory,
         selectedCategory,
         handleCategoryChange,
-        cart,
-        addToCart,
-        removeFromCart,
-        clearCart,
-        increaseQuantity,
-        decreaseQuantity,
-        getCartTotal,
         users,
         getUsers,
         createUser,
         updateUser,
         deleteUser,
+        getMessages,
+        sendMessage,
+        updateMessageStatus,
+        deleteMessage,
+        messages,
+        filteredMessages,
+        selectedMessages,
+        handleMessageChange,
+        cart,
+        addToCart,
+        clearCart,
       }}
     >
       {children}

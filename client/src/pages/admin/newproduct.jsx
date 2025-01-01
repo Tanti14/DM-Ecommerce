@@ -41,7 +41,7 @@ export const NewProduct = () => {
   }, []);
 
   return (
-    <div className="w-full mt-[125px] bg-orange-400">
+    <div className="w-full mt-[125px] bg-pink-600">
       <Formik
         initialValues={product}
         validationSchema={newProdSchema}
@@ -61,9 +61,9 @@ export const NewProduct = () => {
         {({ handleSubmit, values, isSubmitting }) => (
           <Form
             onSubmit={handleSubmit}
-            className="grid grid-cols-2 gap-4 bg-red-500 w-full"
+            className="grid grid-cols-2 gap-4 w-full bg-pink-600"
           >
-            <div className="flex flex-col justify-center gap-2 w-full bg-pink-400 p-12">
+            <div className="flex flex-col justify-center gap-2 w-full p-12 bg-pink-300">
               <div className="flex justify-between items-center">
                 <div>
                   {params.id ? (

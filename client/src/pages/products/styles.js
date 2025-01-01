@@ -31,12 +31,11 @@ export const Button = styled(motion.button)`
 `;
 
 export const StyledProdCards = styled.div`
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
   justify-content: center;
   align-items: center;
-  max-width: 1200px;
   width: 100%;
-  /* flex-wrap: wrap; */
   padding: 30px;
   gap: 20px;
 
