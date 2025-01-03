@@ -1,6 +1,7 @@
 import React, { createContext, useState, useContext, useEffect } from "react";
 import { loginRequest, verifyTokenRequest } from "../api/auth.js";
 import Cookies from "js-cookie";
+import toast from "react-hot-toast";
 
 export const AuthContext = createContext();
 
@@ -36,7 +37,7 @@ export const AuthProvider = ({ children }) => {
       if (Array.isArray(error.response.data)) {
         return setErrors(error.response.data);
       }
-      setErrors([error.response.data.message]);
+      setErrors([error.response.data.error]);
     }
   };
 
@@ -71,6 +72,15 @@ export const AuthProvider = ({ children }) => {
       setUser(null);
     }
   };
+
+  useEffect(() => {
+    if (errors.length > 0) {
+      const timer = setTimeout(() => {
+        setErrors([]);
+      }, 5000);
+      return () => clearTimeout(timer);
+    }
+  }, [errors]);
 
   useEffect(() => {
     checkLogin();

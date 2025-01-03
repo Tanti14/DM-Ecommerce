@@ -55,7 +55,7 @@ export const CategoryManager = () => {
 
   const handleDeleteCategory = async (id) => {
     if (
-      products.some((product) => product.category === category.categoryName)
+      products.some((product) => product.category === catego.categoryName)
     ) {
       return Swal.fire({
         title: "<h2>No se puede borrar la Categoria</h2>",
@@ -131,7 +131,7 @@ export const CategoryManager = () => {
             className="flex flex-col gap-3 bg-white w-1/3 h-full mt-[125px] p-4"
             onClick={(e) => e.stopPropagation()}
           >
-            {catego.id ? (
+            {catego._id ? (
               <h2 className="text-xl mb-4">Editar Categoria</h2>
             ) : (
               <h2 className="text-xl mb-4">Crear Nueva Categoria</h2>
@@ -141,8 +141,8 @@ export const CategoryManager = () => {
                 initialValues={catego}
                 validationSchema={newCategorySchema}
                 onSubmit={async (values, actions) => {
-                  if (catego.id) {
-                    await updateCategory(catego.id, values);
+                  if (catego._id) {
+                    await updateCategory(catego._id, values);
                     toast.success("Categoria actualizada correctamente");
                     setCatego({ id: "", categoryName: "" });
                   } else {
@@ -184,7 +184,7 @@ export const CategoryManager = () => {
                         className="text-red-600"
                       />
 
-                      {catego.id ? (
+                      {catego._id ? (
                         <Button
                           type="submit"
                           className="flex justify-center items-center bg-indigo-600 hover:bg-indigo-500 text-white py-2 px-4 rounded-md"

@@ -4,9 +4,8 @@ import { motion } from "framer-motion";
 import { useManagement } from "@/context/ManagementContext";
 
 export const ProdCard = ({ id, name, description, price, imageUrl }) => {
-  const { cart, addToCart } = useManagement();
+  const { addToCart } = useManagement();
 
-  console.log(cart);
   return (
     <div className="flex flex-col items-center gap-6 bg-white border-[2px] w-[350px] border-black shadow-2xl">
       <div className="w-full">

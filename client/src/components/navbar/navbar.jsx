@@ -196,11 +196,13 @@ export const Navbar = () => {
             ) : (
               cart.map((item) => (
                 <CartCard
-                  key={item._id}
-                  name={item.name}
+                  key={item.id}
+                  /* name={item.name}
                   price={item.price}
                   quantity={item.quantity}
-                  imageUrl={item.imageUrl}
+                  imageUrl={item.imageUrl} */
+                  {...item}
+                  handleToggleCart={handleToggleCart}
                 />
               ))
             )}

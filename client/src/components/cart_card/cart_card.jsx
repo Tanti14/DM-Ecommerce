@@ -8,18 +8,16 @@ import {
 } from "./styles";
 import { formatPrice } from "../../utils/formatPrice";
 import Swal from "sweetalert2";
-import { toast } from "sonner";
+import { useManagement } from "@/context/ManagementContext";
+import toast from "react-hot-toast";
 
-export const CartCard = ({
-  id,
-  name,
-  description,
-  price,
-  imageUrl,
-  quantity,
-}) => {
+/* {id, name, description, price, imageUrl, quantity } */
+
+export const CartCard = (item) => {
+  const { removeFromCart, addToCart, decrementFromCart } = useManagement();
+
   const deleteCartItem = () => {
-    if (quantity === 1) {
+    if (item.quantity === 1) {
       Swal.fire({
         title: "Eliminar item del carrito?",
         icon: "warning",
@@ -30,33 +28,33 @@ export const CartCard = ({
         cancelButtonText: "Cancelar",
       }).then((result) => {
         if (result.isConfirmed) {
-          toast.success("Se ha eliminado el item del carrito", {
-            position: "bottom-left",
-          });
-          dispatch(removeFromCart(id));
+          toast.success("Se ha eliminado el item del carrito");
+          removeFromCart(item.id);
         }
       });
     } else {
-      dispatch(removeFromCart(id));
+      decrementFromCart(item.id);
+      /* Añadir decrementar items de carrito */
     }
   };
+
   return (
     <CartCardContent>
-      <img src={imageUrl} alt={name} />
+      <img src={item.imageUrl} alt={item.name} />
       <CardRightSide>
         <CartCardText>
-          <h2>{name}</h2>
-          <span>{formatPrice(price)}</span>
+          <h2>{item.name}</h2>
+          <span>{formatPrice(item.price)}</span>
         </CartCardText>
         <CartCardBtns>
           <CardBtn
             whileTap={{ scale: 0.95 }}
             whileHover={{ scale: 1.09 }}
-            onClick={() => dispatch(addToCart({ id, title, img, precio }))}
+            onClick={() => addToCart(item)}
           >
             +
           </CardBtn>
-          <span>{quantity}</span>
+          <span>{item.quantity}</span>
           <CardBtn
             whileTap={{ scale: 0.95 }}
             whileHover={{ scale: 1.09 }}

@@ -6,9 +6,10 @@ import { ErrorMessage, Field, Form, Formik } from "formik";
 import { loginInitialValues, loginSchema } from "@/Formik";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { useNavigate, useParams } from "react-router-dom";
+import toast from "react-hot-toast";
 
 export const Login = () => {
-  const { login, isAuth } = useAuth();
+  const { login, isAuth, errors } = useAuth();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -16,6 +17,13 @@ export const Login = () => {
       navigate("/controlpanel", { replace: true });
     }
   }, [isAuth]);
+
+  useEffect(() => {
+    if (errors.length > 0) {
+      toast.error(errors);
+    }
+  }),
+    [errors];
 
   return (
     <div className="grid grid-cols-2 w-full sm:h-screen ">

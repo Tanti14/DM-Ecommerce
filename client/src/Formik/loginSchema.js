@@ -6,9 +6,6 @@ export const loginSchema = Yup.object({
     .matches(emailRegex, "Por favor, ingrese un email valido")
     .required("El email es obligatorio"),
   password: Yup.string()
-    .matches(
-      passwordRegex,
-      "La contraseña debe tener al menos 6 caracteres, una mayuscula, una minuscula y un número"
-    )
+    .matches(passwordRegex, "Ingrese una contraseña valida")
     .required("La contraseña es obligatoria"),
 });

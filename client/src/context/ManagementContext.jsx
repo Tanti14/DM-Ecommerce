@@ -261,13 +261,17 @@ export const ManagementProvider = ({ children }) => {
   /* =========================================================================== */
   /* Cart Management */
 
-  const [cart, setCart] = useState([]);
+  const [cart, setCart] = useState(() => {
+    const savedCart = localStorage.getItem("cart");
+    return savedCart ? JSON.parse(savedCart) : [];
+  });
+
+  useEffect(() => {
+    localStorage.setItem("cart", JSON.stringify(cart));
+  }, [cart]);
 
   const addToCart = (product) => {
-    console.log(cart);
-    const productInCartIndex = cart.findIndex(
-      (item) => item.id === product.id
-    );
+    const productInCartIndex = cart.findIndex((item) => item.id === product.id);
 
     if (productInCartIndex >= 0) {
       const newCart = structuredClone(cart);
@@ -276,6 +280,20 @@ export const ManagementProvider = ({ children }) => {
     }
 
     setCart((prev) => [...prev, { ...product, quantity: 1 }]);
+  };
+
+  const decrementFromCart = (productId) => {
+    const productInCartIndex = cart.findIndex((item) => item.id === productId);
+
+    if (productInCartIndex >= 0) {
+      const newCart = structuredClone(cart);
+      newCart[productInCartIndex].quantity -= 1;
+      return setCart(newCart);
+    }
+  };
+
+  const removeFromCart = (productId) => {
+    setCart((prev) => prev.filter((item) => item.id !== productId));
   };
 
   const clearCart = () => {
@@ -314,6 +332,8 @@ export const ManagementProvider = ({ children }) => {
         handleMessageChange,
         cart,
         addToCart,
+        decrementFromCart,
+        removeFromCart,
         clearCart,
       }}
     >
